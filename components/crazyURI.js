@@ -10,7 +10,7 @@ import { formatUnits } from "ethers/lib/utils"
 
 import { ParseImage } from '../components/parseImage'
 
-import { Flex } from '@chakra-ui/react'
+import { Flex, Wrap, Center} from '@chakra-ui/react'
 
 
 export const CrazyURI = () => {
@@ -41,9 +41,9 @@ export const CrazyURI = () => {
     }
     return (
           <div>
-              <Flex flexDirection="row" alignItems="center">
-                <ParseImage uris={uris} totalSupply={totalSupply}></ParseImage>
-              </Flex>
+              <Wrap flexDirection="row" justify="center">
+                  <ParseImage uris={uris} totalSupply={totalSupply}></ParseImage>
+              </Wrap>
           </div>
     )
   }

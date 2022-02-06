@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import Image from 'next/image'
 
 import { loader } from "../utils"
-import { Center } from '@chakra-ui/react'
+import { Box, Center, Flex, Spacer } from '@chakra-ui/react'
 
 export const ParseImage = ({uris, totalSupply})  => {
   
@@ -38,9 +38,9 @@ export const ParseImage = ({uris, totalSupply})  => {
     return (
     <>
         {imageArray.map(image => (
-            <Center padding="0.1rem">
+            <Box key={image} maxW="300px" padding="0.1rem">
                 <Image key={image} loader={loader} src={image} height={300} width={300}/>
-            </Center>
+            </Box>
         ))}
     </>
     )

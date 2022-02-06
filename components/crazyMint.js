@@ -1,13 +1,15 @@
 import { Contract } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
+import useEtherSWR from 'ether-swr'
 
 import { CRAZY_ADDR } from '../utils'
-import { CrazyCallum, Uniswap } from '../abis/abis'
-import { Button } from '@chakra-ui/react'
-
-import { parseEther } from 'ethers/lib/utils'
+import { CrazyCallum } from '../abis/abis'
+import { Button, Flex } from '@chakra-ui/react'
 
 import { useState, useRef } from 'react'
+
+import { PaidButtons } from './paidButtons'
+import { FreeButtons } from './freeButtons'
 
 import {
   AlertDialog,
@@ -23,24 +25,17 @@ export const CrazyMint = () => {
   
     const CrazyContract = new Contract(CRAZY_ADDR, CrazyCallum, library.getSigner())
 
+    const { data: freeMintUsed } = useEtherSWR([CRAZY_ADDR, 'getFreeMintUsed', account])
+
     const [isOpen, setIsOpen] = useState(false)
     const onClose = () => setIsOpen(false)
     const cancelRef = useRef()
   
-    const onClick = async () => {
-      try{
-        const tx = await CrazyContract.connect(library.getSigner()).mintCallum({value: parseEther("0.005")})
-      } catch (err){
-        console.log("Max Reached")
-        setIsOpen(true)
-      }
-    }
-  
     return (
       <>
-        <Button type="button" onClick={onClick} backgroundColor="#5E6CE8" >
-          Mint
-        </Button>
+      <Flex flexDirection="column">
+        {!freeMintUsed ? <FreeButtons /> : <PaidButtons />}        
+      </Flex>
 
         <AlertDialog
           isOpen={isOpen}

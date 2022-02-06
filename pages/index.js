@@ -9,6 +9,7 @@ import { CrazyURI } from '../components/crazyURI'
 
 import { ABIs} from '../utils'
 import { Button, Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
+import { FreeMintUsed } from '../components/freeMintAvailable'
 
 
 export default function Home() {
@@ -31,7 +32,12 @@ export default function Home() {
                 <EthSWRConfig
                   value={{ web3Provider: library, ABIs: new Map(ABIs), refreshInterval: 30000 }}
                 >
-                  <EthBalance></EthBalance>
+                  <Flex flexDirection="column">
+                    <FreeMintUsed />
+                    <Center>
+                      <EthBalance></EthBalance>
+                    </Center>
+                  </Flex>
                 </EthSWRConfig>
               </Heading>
               )}

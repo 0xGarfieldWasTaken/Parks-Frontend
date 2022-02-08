@@ -21,12 +21,16 @@ export const CrazyURI = () => {
   
     const [totalSupply, setTotalSupply] = useState()
   
-    useEffect(async () => {
-      const ccContract = new Contract(CRAZY_ADDR, CrazyCallum, library.getSigner())
-      const totalSupply = await ccContract.connect(library.getSigner()).totalSupply()
-      const humanReadable = formatUnits(totalSupply, 0)
+    useEffect(() => {
+      async function fetchData() {
+        const ccContract = new Contract(CRAZY_ADDR, CrazyCallum, library.getSigner())
+        const totalSupply = await ccContract.connect(library.getSigner()).totalSupply()
+        const humanReadable = formatUnits(totalSupply, 0)
   
-      setTotalSupply(humanReadable)
+        setTotalSupply(humanReadable)
+      }
+
+      fetchData()
   
     }, [totalSupply])
   

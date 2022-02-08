@@ -52,7 +52,7 @@ export const CrazyMint = () => {
             </AlertDialogHeader>
 
             <AlertDialogBody >
-              Max Crazy Callum's Have Been Minted
+              Max Crazy Callum&apos;s Have Been Minted
             </AlertDialogBody>
 
             <Button ref={cancelRef} onClick={onClose} padding="1rem" variant="ghost">

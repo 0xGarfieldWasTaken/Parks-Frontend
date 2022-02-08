@@ -8,28 +8,31 @@ export const ParseImage = ({uris, totalSupply})  => {
   
     const [ imageArray, setImageArray ] = useState()
   
-    useEffect(async () => {
+    useEffect(() => {
+      async function fetchData() {
+        let tmpImageArray = new Array()
   
-      let tmpImageArray = new Array()
+        let unpack = uris
   
-      let unpack = uris
+        for(let i = 0; i < totalSupply; i++){
+          let url = unpack[i]
+          url = url.slice(7, url.length)
   
-      for(let i = 0; i < totalSupply; i++){
-        let url = unpack[i]
-        url = url.slice(7, url.length)
-  
-        const ipfsUrl = "https://ipfs.io/ipfs/"+url
+          const ipfsUrl = "https://ipfs.io/ipfs/"+url
         
-        let response = await fetch(ipfsUrl);
-        let data = await response.json();
+          let response = await fetch(ipfsUrl);
+          let data = await response.json();
         
-        let image = data.image
+          let image = data.image
   
-        tmpImageArray.push(image)
+          tmpImageArray.push(image)
+        }
+  
+        setImageArray(tmpImageArray)
       }
-  
-      setImageArray(tmpImageArray)
-  
+
+      fetchData()
+      
     }, [])
   
     if(!imageArray){

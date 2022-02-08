@@ -33,7 +33,7 @@ export const CrazyMint = () => {
   
     return (
       <>
-      <Flex flexDirection="column">
+      <Flex paddingTop="1rem" flexDirection="column">
         {!freeMintUsed ? <FreeButtons /> : <PaidButtons />}        
       </Flex>
 

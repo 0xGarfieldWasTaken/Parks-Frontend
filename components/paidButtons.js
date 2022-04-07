@@ -2,9 +2,9 @@ import { Contract } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
 import useEtherSWR from 'ether-swr'
 
-import { CRAZY_ADDR } from '../utils'
-import { CrazyCallum } from '../abis/abis'
-import { Button, Center, Flex } from '@chakra-ui/react'
+import { PARKS_ADDR } from '../utils'
+import { Parks } from '../abis/abis'
+import { Button, Center, Flex, Input, Spacer, Text } from '@chakra-ui/react'
 
 import { parseEther } from 'ethers/lib/utils'
 
@@ -22,52 +22,28 @@ import {
 export const PaidButtons = () => {
     const { account, library } = useWeb3React()
   
-    const CrazyContract = new Contract(CRAZY_ADDR, CrazyCallum, library.getSigner())
-
-    const { data: freeMintUsed } = useEtherSWR([CRAZY_ADDR, 'getFreeMintUsed', account])
+    const ParksContract = new Contract(PARKS_ADDR, Parks, library.getSigner())
 
     const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState()
+    const [mintNumber, setMintNumber] = useState(1)
+
     const onClose = () => setIsOpen(false)
     const cancelRef = useRef()
 
+    const price = 0.001
+
+    const handleChange = (e) => {
+      const value = e.target.value.replace(/\D/g, "");
+      if (value < 0){
+        value = 1;
+      }
+      setMintNumber(value);
+    };
+
     const mint = async () => {
         try{
-          const tx = await CrazyContract.connect(library.getSigner()).mintCallum({value: parseEther("0.005")})
-        } catch (err){
-            console.log(err)
-            let errorMessage = err.message
-            if(errorMessage.includes("denied")){
-                setError("denied")
-            }else if (errorMessage.includes("MAX")) {
-                setError("maxxed")
-            } else {
-                setError("unknown")
-            }
-            setIsOpen(true)
-        }
-      }
-    
-    const mint2 = async () => {
-        try{
-          const tx = await CrazyContract.connect(library.getSigner()).mint2Callums({value: parseEther("0.010")})
-        } catch (err){
-            console.log(err)
-            let errorMessage = err.message
-            if(errorMessage.includes("denied")){
-                setError("denied")
-            }else if (errorMessage.includes("MAX")) {
-                setError("maxxed")
-            } else {
-                setError("unknown")
-            }
-            setIsOpen(true)
-        }
-      }
-
-    const mint4 = async () => {
-        try{
-          const tx = await CrazyContract.connect(library.getSigner()).mint4Callums({value: parseEther("0.020")})
+          const tx = await ParksContract.connect(library.getSigner()).mintPark(mintNumber, {value: parseEther(String(mintNumber*price))})
         } catch (err){
             console.log(err)
             let errorMessage = err.message
@@ -97,20 +73,16 @@ export const PaidButtons = () => {
       <>
       <Flex flexDirection="column">
           <Center padding="0.5rem">
+            <Input maxWidth="30rem" value={mintNumber} onChange={handleChange} type="number" placeholder='1' />
+          </Center>
+          <Center>
+            <Text>
+              Minting {mintNumber} Parks
+            </Text>
+          </Center>
+          <Center padding="0.5rem">
             <Button minWidth="30rem" type="button" onClick={mint} backgroundColor="#5E6CE8" >
-              Mint 1 Callum!
-            </Button>
-          </Center>
-
-          <Center padding="0.5rem">
-            <Button minWidth="30rem"  type="button" onClick={mint2} backgroundColor="#5E6CE8" >
-              Mint 2 Callums!
-            </Button>
-          </Center>
-
-          <Center padding="0.5rem">
-            <Button minWidth="30rem" type="button" onClick={mint4} backgroundColor="#5E6CE8" >
-              Mint 4 Callums!
+              Mint Park(s)!
             </Button>
           </Center>
           

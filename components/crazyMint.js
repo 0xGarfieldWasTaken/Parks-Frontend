@@ -1,15 +1,13 @@
 import { Contract } from 'ethers'
 import { useWeb3React } from '@web3-react/core'
-import useEtherSWR from 'ether-swr'
 
-import { CRAZY_ADDR } from '../utils'
-import { CrazyCallum } from '../abis/abis'
+import { PARKS_ADDR } from '../utils'
+import { Parks } from '../abis/abis'
 import { Button, Flex } from '@chakra-ui/react'
 
 import { useState, useRef } from 'react'
 
 import { PaidButtons } from './paidButtons'
-import { FreeButtons } from './freeButtons'
 
 import {
   AlertDialog,
@@ -23,9 +21,7 @@ import {
 export const CrazyMint = () => {
     const { account, library } = useWeb3React()
   
-    const CrazyContract = new Contract(CRAZY_ADDR, CrazyCallum, library.getSigner())
-
-    const { data: freeMintUsed } = useEtherSWR([CRAZY_ADDR, 'getFreeMintUsed', account])
+    const ParksContract = new Contract(PARKS_ADDR, Parks, library.getSigner())
 
     const [isOpen, setIsOpen] = useState(false)
     const onClose = () => setIsOpen(false)
@@ -34,7 +30,7 @@ export const CrazyMint = () => {
     return (
       <>
       <Flex paddingTop="1rem" flexDirection="column">
-        {!freeMintUsed ? <FreeButtons /> : <PaidButtons />}        
+        <PaidButtons />   
       </Flex>
 
         <AlertDialog
@@ -48,11 +44,11 @@ export const CrazyMint = () => {
         <AlertDialogOverlay >
           <AlertDialogContent>
             <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-              No More Callums :(
+              No More Parks :(
             </AlertDialogHeader>
 
             <AlertDialogBody >
-              Max Crazy Callum&apos;s Have Been Minted
+              Max Parks Have Been Minted
             </AlertDialogBody>
 
             <Button ref={cancelRef} onClick={onClose} padding="1rem" variant="ghost">

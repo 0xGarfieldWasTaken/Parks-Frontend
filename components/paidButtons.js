@@ -31,7 +31,7 @@ export const PaidButtons = () => {
     const onClose = () => setIsOpen(false)
     const cancelRef = useRef()
 
-    const price = 0.001
+    const price = 1
 
     const handleChange = (e) => {
       const value = e.target.value.replace(/\D/g, "");

@@ -17,7 +17,7 @@ The main focus for me doing this project was the Solidity and using the random v
 
 # How to Run
 
-Under `utils.js` input the address of the CrazyCallum Contract. Update the ABI in `abis/abi.js` if necessary.
+Under `utils.js` input the address of the Parks Contract. Update the ABI in `abis/abi.js` if necessary.
 
 Run `yarn dev`
 
